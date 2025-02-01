@@ -1,0 +1,39 @@
+esphome:
+  name: vibration-sensor
+  friendly_name: Vibration Sensor
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "euSOvCQd36ntJKvuBWO7cnRBYcEZepk5eiopJx4Z9dw="
+
+ota:
+  - platform: esphome
+    password: "95d4a2926b215859c8dc1cd4f71bf28e"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Vibration-Sensor"
+    password: "rMWFUtKk756w"
+
+# Define the ADC sensor for piezo sensor
+sensor:
+  - platform: adc
+    pin: A0  # Adjust to the pin you're using
+    name: "Vibration Sensor"
+    update_interval: 100ms
+    filters:
+      - lambda: return x * 3.3;  # Convert ADC to voltage (3.3V scale)
+    unit_of_measurement: "V"
+    icon: "mdi:vibrate"
+    
